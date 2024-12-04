@@ -1,0 +1,69 @@
+<div class="container-fluid">
+    <!-- Navbar (Navegação) -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-primary">
+        <div class="container-fluid">
+            <a class="navbar-brand text-light" href="#">Gerenciamento de Tarefas</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link active text-light" href="/cadastrousuario">Cadastro de Usuários</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-light" href="/cadastrotarefa">Cadastro de Tarefas</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-light" href="/gerenciatarefa">Gerenciar Tarefas</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Conteúdo principal -->
+    <div class="mt-4">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Cadastro de Tarefas</h5>
+
+                <!-- Exibir mensagem de sucesso se existir -->
+                {{#if successMessage}}
+                  <div class="alert alert-success" role="alert">
+                    {{successMessage}}
+                  </div>
+                {{/if}}
+
+                <form method="POST" action="/cadastrotarefa">
+                    <div class="mb-3">
+                        <label for="descricao" class="form-label">Descrição</label>
+                        <input type="text" class="form-control" id="descricao" name="descricao" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="setor" class="form-label">Setor</label>
+                        <input type="text" class="form-control" id="setor" name="setor" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="usuario" class="form-label">Usuário</label>
+                        <select class="form-select" id="usuario" name="usuario" required>
+                            {{#each usuarios}}
+                                <option value="{{this.nome}}">{{this.nome}}</option>
+                            {{/each}}
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="prioridade" class="form-label">Prioridade</label>
+                        <select class="form-select" id="prioridade" name="prioridade" required>
+                            <option value="baixa">Baixa</option>
+                            <option value="média">Média</option>
+                            <option value="alta">Alta</option>
+                        </select>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary">Cadastrar</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

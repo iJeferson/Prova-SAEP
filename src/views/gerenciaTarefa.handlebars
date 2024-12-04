@@ -1,0 +1,226 @@
+<div class="container-fluid">
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-primary">
+        <div class="container-fluid">
+            <a class="navbar-brand text-light" href="#">Gerenciamento de Tarefas</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link text-light" href="/cadastrousuario">Cadastro de Usuários</a></li>
+                    <li class="nav-item"><a class="nav-link text-light" href="/cadastrotarefa">Cadastro de Tarefas</a></li>
+                    <li class="nav-item"><a class="nav-link text-light" href="/gerenciatarefa">Gerenciar Tarefas</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Tarefas -->
+    <div class="container mt-4">
+        <h5 class="card-title">Tarefas</h5>
+        <br>
+        <div class="row">
+            <!-- Coluna A Fazer -->
+            <div class="col-md-4">
+                <h4 class="card-title">A Fazer</h4>
+                {{#each tarefas}}
+                    {{#if (eq this.status "a fazer")}}
+                        <div class="card shadow-sm mb-3">
+                            <div class="card-body">
+                                <p><strong>Descrição:</strong> {{this.descricao}}</p>
+                                <p><strong>Setor:</strong> {{this.setor}}</p>
+                                <p><strong>Prioridade:</strong> {{this.prioridade}}</p>
+                                <p><strong>Vinculado a:</strong> {{this.usuario.nome}}</p>
+                                <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#editarTarefaModal{{this.id}}">Editar</button>
+
+                                <!-- Formulário de Excluir -->
+                                <form method="POST" action="/excluirTarefa" style="display:inline;">
+                                    <input type="hidden" name="id" value="{{this.id}}">
+                                    <button type="submit" class="btn btn-primary btn-sm">Excluir</button>
+                                </form>
+
+                                <form method="POST" action="/alterarStatus">
+                                    <input type="hidden" name="id" value="{{this.id}}">
+                                    <div class="mb-3">
+                                        <label for="status" class="form-label">Alterar Status</label>
+                                        <select class="form-select" name="status" id="status">
+                                            <option value="a fazer">A Fazer</option>
+                                            <option value="fazendo">Fazendo</option>
+                                            <option value="pronto">Pronto</option>
+                                        </select>
+                                    </div>
+                                    <button class="btn btn-primary btn-sm">Alterar Status</button>
+                                </form>
+                            </div>
+                        </div>
+
+                        <!-- Modal de Edição -->
+                        <div class="modal fade" id="editarTarefaModal{{this.id}}" tabindex="-1" aria-labelledby="editarTarefaModalLabel" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="editarTarefaModalLabel">Editar Tarefa</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <form method="POST" action="/editarTarefa">
+                                            <input type="hidden" name="id" value="{{this.id}}">
+                                            <div class="mb-3">
+                                                <label for="descricao" class="form-label">Descrição</label>
+                                                <input type="text" class="form-control" id="descricao" name="descricao" value="{{this.descricao}}">
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="setor" class="form-label">Setor</label>
+                                                <input type="text" class="form-control" id="setor" name="setor" value="{{this.setor}}">
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="prioridade" class="form-label">Prioridade</label>
+                                                <input type="text" class="form-control" id="prioridade" name="prioridade" value="{{this.prioridade}}">
+                                            </div>
+                                            <button type="submit" class="btn btn-primary">Salvar Alterações</button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    {{/if}}
+                {{/each}}
+            </div>
+
+            <!-- Coluna Fazendo -->
+            <div class="col-md-4">
+                <h4 class="card-title">Fazendo</h4>
+                {{#each tarefas}}
+                    {{#if (eq this.status "fazendo")}}
+                        <div class="card shadow-sm mb-3">
+                            <div class="card-body">
+                                <p><strong>Descrição:</strong> {{this.descricao}}</p>
+                                <p><strong>Setor:</strong> {{this.setor}}</p>
+                                <p><strong>Prioridade:</strong> {{this.prioridade}}</p>
+                                <p><strong>Vinculado a:</strong> {{this.usuario.nome}}</p>
+                                <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#editarTarefaModal{{this.id}}">Editar</button>
+
+                                <!-- Formulário de Excluir -->
+                                <form method="POST" action="/excluirTarefa" style="display:inline;">
+                                    <input type="hidden" name="id" value="{{this.id}}">
+                                    <button type="submit" class="btn btn-primary btn-sm">Excluir</button>
+                                </form>
+
+                                <form method="POST" action="/alterarStatus">
+                                    <input type="hidden" name="id" value="{{this.id}}">
+                                    <div class="mb-3">
+                                        <label for="status" class="form-label">Alterar Status</label>
+                                        <select class="form-select" name="status" id="status">
+                                            <option value="a fazer">A Fazer</option>
+                                            <option value="fazendo">Fazendo</option>
+                                            <option value="pronto">Pronto</option>
+                                        </select>
+                                    </div>
+                                    <button class="btn btn-primary btn-sm">Alterar Status</button>
+                                </form>
+                            </div>
+                        </div>
+
+                        <!-- Modal de Edição -->
+                        <div class="modal fade" id="editarTarefaModal{{this.id}}" tabindex="-1" aria-labelledby="editarTarefaModalLabel" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="editarTarefaModalLabel">Editar Tarefa</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <form method="POST" action="/editarTarefa">
+                                            <input type="hidden" name="id" value="{{this.id}}">
+                                            <div class="mb-3">
+                                                <label for="descricao" class="form-label">Descrição</label>
+                                                <input type="text" class="form-control" id="descricao" name="descricao" value="{{this.descricao}}">
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="setor" class="form-label">Setor</label>
+                                                <input type="text" class="form-control" id="setor" name="setor" value="{{this.setor}}">
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="prioridade" class="form-label">Prioridade</label>
+                                                <input type="text" class="form-control" id="prioridade" name="prioridade" value="{{this.prioridade}}">
+                                            </div>
+                                            <button type="submit" class="btn btn-primary">Salvar Alterações</button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    {{/if}}
+                {{/each}}
+            </div>
+
+            <!-- Coluna Pronto -->
+            <div class="col-md-4">
+                <h4 class="card-title">Pronto</h4>
+                {{#each tarefas}}
+                    {{#if (eq this.status "pronto")}}
+                        <div class="card shadow-sm mb-3">
+                            <div class="card-body">
+                                <p><strong>Descrição:</strong> {{this.descricao}}</p>
+                                <p><strong>Setor:</strong> {{this.setor}}</p>
+                                <p><strong>Prioridade:</strong> {{this.prioridade}}</p>
+                                <p><strong>Vinculado a:</strong> {{this.usuario.nome}}</p>
+                                <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#editarTarefaModal{{this.id}}">Editar</button>
+
+                                <!-- Formulário de Excluir -->
+                                <form method="POST" action="/excluirTarefa" style="display:inline;">
+                                    <input type="hidden" name="id" value="{{this.id}}">
+                                    <button type="submit" class="btn btn-primary btn-sm">Excluir</button>
+                                </form>
+
+                                <form method="POST" action="/alterarStatus">
+                                    <input type="hidden" name="id" value="{{this.id}}">
+                                    <div class="mb-3">
+                                        <label for="status" class="form-label">Alterar Status</label>
+                                        <select class="form-select" name="status" id="status">
+                                            <option value="a fazer">A Fazer</option>
+                                            <option value="fazendo">Fazendo</option>
+                                            <option value="pronto">Pronto</option>
+                                        </select>
+                                    </div>
+                                    <button class="btn btn-primary btn-sm">Alterar Status</button>
+                                </form>
+                            </div>
+                        </div>
+
+                        <!-- Modal de Edição -->
+                        <div class="modal fade" id="editarTarefaModal{{this.id}}" tabindex="-1" aria-labelledby="editarTarefaModalLabel" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="editarTarefaModalLabel">Editar Tarefa</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <form method="POST" action="/editarTarefa">
+                                            <input type="hidden" name="id" value="{{this.id}}">
+                                            <div class="mb-3">
+                                                <label for="descricao" class="form-label">Descrição</label>
+                                                <input type="text" class="form-control" id="descricao" name="descricao" value="{{this.descricao}}">
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="setor" class="form-label">Setor</label>
+                                                <input type="text" class="form-control" id="setor" name="setor" value="{{this.setor}}">
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="prioridade" class="form-label">Prioridade</label>
+                                                <input type="text" class="form-control" id="prioridade" name="prioridade" value="{{this.prioridade}}">
+                                            </div>
+                                            <button type="submit" class="btn btn-primary">Salvar Alterações</button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    {{/if}}
+                {{/each}}
+            </div>
+        </div>
+    </div>
+</div>
